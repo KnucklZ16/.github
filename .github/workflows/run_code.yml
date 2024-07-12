@@ -1,1 +1,33 @@
+name: Run ValorantGen
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run script
+      run: |
+        python valorantgen.py
+
+    - name: Send Discord notification
+      run: |
+        curl -H "Content-Type: application/json" \
+        -d '{"content": "The script has been executed successfully!"}' \
+        https://github.com/GenDr0id/ValorantGen.git
